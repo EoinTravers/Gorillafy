@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Flanker Task</title>
+        <!-- Libraries already loaded by Gorilla -->
+        <script src="libs/jquery.min.js"></script>
+        <script src="libs/bootstrap.min.js"></script>
+        <link href="libs/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Our libraries -->
+        <script src="libs/lodash.min.js"></script>
+        <script src="libs/primate.js"></script>
+        <!-- Our code -->
+        <link href="style/main.css" rel="stylesheet"/>
+        <script src="js/utils.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+
+    <body>
+        <div id="gorilla">
+            <!-- Everything inside this element will be copied into Gorilla -->
+            <!-- Start copying here -->
+            <div id="start">
+                <h2>Flanker Task</h2>
+                <p>
+                    The usual rules apply.
+                </p>
+                <p>
+                    Press <b>F</b> for left,
+                    and <b>J</b> for right.
+                </p>
+                <p>
+                    Press [SPACE] to begin.
+                </p>
+            </div>
+            <p id="fix">+</p>
+            <div id="target">
+                <img class="flanker" alt="" src="stimuli/left.svg"/>
+                <img class="flanker" alt="" src="stimuli/left.svg"/>
+                <img class="target"  alt="" src="stimuli/right.svg"/>
+                <img class="flanker" alt="" src="stimuli/left.svg"/>
+                <img class="flanker" alt="" src="stimuli/left.svg"/>
+            </div>
+            <p id="feedback">Wrong!</p>
+            <p id="end">
+                End of Experiment.<br>
+                Stand by...
+            </p>
+            <!-- Stop copying here -->
+        </div>
+    </body>
+</html>

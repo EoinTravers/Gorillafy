@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Gorilla Conversion</title>
+        <style>
+          body {
+            font-size: 14pt;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 1em;
+            counter-reset: h2counter;
+          }
+          code {
+            color: red;
+          }
+          pre {
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+          }
+          /* code, pre {
+             overflow: visible !important;
+             } */
+          h2:before {
+            content: counter(h2counter) ".\0000a0\0000a0";
+            counter-increment: h2counter;
+          }
+        </style>
+    </head>
+
+    <!-- Syntax highlighting -->
+    <link rel="stylesheet"
+          href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.0/styles/default.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <body>
+        <h1>Gorillafication Instructions</h1>
+        <p>
+            This page will guide you through uploading your experiment to Gorilla.
+            To begin, create a new task using the
+            [Gorilla Code Editor](https://gorilla.sc/info/code-editor).
+            Then, work through the steps below.
+        </p>
+        <h2>Toolbox</h2>
+        <p>
+            First, in the Code Editor,
+            go to the <code>Toolbox</code> tab on the right.
+            This will open up some options, with tickboxes.
+            Tick every box in order to enable the other tabs
+            we're going to need below.
+        </p>
+        <h2>Code > utils.js</h2>
+        <p>
+            Create a new tab in the <code>Code</code> section.
+            Call it <code>utils.js</code>.
+            Copy and paste the contents of your <code>js/utils.js</code> file,
+            below, into this tab.
+        </p>
+        <pre><code class="lang-javascript">{{ utils_js|e }} </code></pre>
+
+        <h2>Code > main.js</h2>
+        <p>
+            Next, create a tab called <code>main.js</code>
+            and copy in the contents of your <code>js/main.js</code> file,
+            below.
+        </p>
+        <pre><code class="lang-javascript">{{ main_js|e }} </code></pre>
+
+        <h2>Template > body</h2>
+        <p>
+            Below, we've tried to extract out the contents of
+            the <code>#gorilla</code> tag in
+            {{ root_dir }}/index.html.
+            Any resources with the attribute
+            <code>src="stimuli/foo.png"</code>
+            should have been replace with the command
+            <code>{% raw %}src="{{ stimuli 'foo.png' }}{% endraw %}"</code>.
+            You should check this.
+        </p>
+        <p>
+            If everything looks OK, create a new tab in the <code>Templates</code>
+            section, call it <code>body</code> and copy in the code below.
+        </p>
+        <pre> <code class="lang-html"> {{ body_html|e }} </code> </pre>
+
+        <h2>Style</h2>
+        <p>
+            Open the <code>Style</code> tab in Gorilla,
+            and paste in the code below.
+            These are the contents of
+            <code>{{ root_dir}}/style/main.css</code>,
+            plus an extra line at the top,
+            <code>@import '/style/style.less';</code>,
+            which tells Gorilla to also include it's built in version of Bootstrap
+            (and some other files).
+            This will change the appearance of your experiment a little,
+            for instance changing the default font, and turning Bootstrap buttons red.
+
+            <pre> <code class="lang-css">@import '/style/style.less';
+{{ main_css|e }}</code> </pre>
+        </p>
+
+        <h2>Uploads > Stimuli</h2>
+        <p>
+            On this tab, you'll want to upload the contents of
+            <code>{{ root_dir }}/stimuli/</code>.
+            These are listed below, if there are any.
+            <ul>
+                {% for stim in stim_files %} <li>{{ stim }}</li> {% endfor %}
+            </ul>
+        </p>
+
+        <h2>Uploads > Resources</h2>
+        <p>
+            It looks like you're using the following JavaScript libraries:
+        </p>
+        <code>{{ js_paths }}</code>
+        <p>
+            and the following CSS libraries:
+        </p>
+        <code>{{ css_paths }}</code>
+        <p>
+            Bootstrap and jQuery are already included as part of Gorilla.
+            That means you only have to upload the following files in the Resources tab:
+            <ul>
+                {% for path in necessary_paths %} <li>{{ path }}</li> {% endfor %}
+            </ul>
+        </p>
+
+        <h2>Advanced > Head</h2>
+        <p>
+            Next, you need to add links to the files you've just uploaded.
+            Paste the following into the Head tab on Gorilla.
+        </p>
+        <pre><code class="lang-html">&lt;!-- jQuery and Bootstrap are already loaded by Gorilla  -->
+&lt;!-- JavaScript libraries -->
+{{ js_resources|e }}
+&lt;!-- CSS libraries -->
+{{ css_resources|e }}
+        </code></pre>
+
+        <h2>Manipulations</h2>
+        <p>
+            The <code>Manipulations</code> tab in Gorilla
+            controls between-subject manipulations.
+            In the Flanker example,
+            the only manipulation is <code>target_size</code>,
+            which sets the size of the stimuli to either <code>2.5</code>
+            or <code>7.5</code> (in units of <code>vh</code>, percentage of window height).
+            The following line in <code>main.js</code>
+
+            <pre><code class="lang-javascript">let target_size = primate.manipulation('target_size', _.sample(['2.5', '7.5']));</code> </pre>
+
+            checks the value of this manipulation if running on Gorilla,
+            but sets it randomly to be either <code>'2.5'</code>
+            or <code>'7.5'</code> otherwise.
+            Note that although  Gorilla manipulations can be numbers or strings,
+            it's safest to assume that they are strings,
+            and convert them to numbers if necessary.
+        </p>
+        <p>
+            You'll need to add any manipulations for your experiment manually
+            in the <code>Manipulations</code> tab.
+        </p>
+
+        <h2>Metrics</h2>
+        <p>
+            Gorilla requires that you specify every variable
+            to be recorded in your task in the <code>Metrics</code> tab.
+            Fortunately, we code these experiments in such a way that
+            everything we want to log is stored in the <code>state</code> object,
+            defined in <code>{{ root_dir }}/js/main.js</code>,
+            which is just a dictionary of labels and corresponding values.
+        </p>
+        <p>
+            To make this process even easier,
+            the JavaScript snippet below should contain
+            a list of the state labels found in
+            <code>{{ root_dir }}/js/main.js</code>,
+            along with some code.
+            Open up the <code>Metrics</code> tab in Gorilla,
+            open the JavaScript console in your browser,
+            and paste and run this code
+            to automatically add these metrics to the experiment.
+
+            <pre>
+                <code class="lang-javascript">{{ metrics_code|e }}</code>
+            </pre>
+        </p>
+
+    </body>
+</html>

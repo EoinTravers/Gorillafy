@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+
+import gorillafy
+import sys
+
+target_directory = sys.argv[1]
+gorillafy.gorillafy(target_directory)
