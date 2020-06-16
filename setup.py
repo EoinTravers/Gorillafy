@@ -8,4 +8,5 @@ setup(name='gorillafy',
       author='Eoin Travers',
       author_email='eoin.travers@gmail.com',
       license='MIT',
+      include_package_data=True,
       packages=['gorillafy'])
