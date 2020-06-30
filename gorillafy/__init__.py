@@ -3,7 +3,7 @@ import sys
 import os
 import webbrowser
 from bs4 import BeautifulSoup
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
 
 __version__ = '0.1.0'
 
@@ -138,8 +138,10 @@ def gorillafy(target_directory: str,
     template_dir = os.path.join(this_dir, 'resources')
     print(template_dir)
 
-    metrics_template = Template(read('add_metrics.js', template_dir))
-    main_template = Template(read('main.html', template_dir))
+
+    env = Environment(loader = FileSystemLoader(template_dir))
+    metrics_template = env.get_template('add_metrics.js')
+    main_template = env.get_template('main.html')
 
     root_dir = os.path.abspath(target_directory)
     print('Target: ', root_dir)
