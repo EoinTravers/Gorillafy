@@ -68,7 +68,7 @@ to tell Gorilla what metrics it should record.
 
 ## `primate.js`
 
-`primate.js` is a simple JavaScript package
+[`primate.js`](https://github.com/eointravers/primate.js) is a simple JavaScript package
 that provides the same functions as the [Gorilla API](https://gorilla.sc/support/api/gorilla).
 When run on the Gorilla platform,
 `primate.js` just calls the corresponding Gorilla functions,
