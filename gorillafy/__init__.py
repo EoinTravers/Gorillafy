@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
 import re
 import sys
 import os
@@ -5,7 +7,7 @@ import webbrowser
 from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 def check_interactive():
     import __main__ as main
@@ -72,7 +74,6 @@ def get_library_links(page: str, kind: str) -> (list, list, str):
     soup = BeautifulSoup(page, features='html.parser')
     files = soup.find('head').findAll(tag)
     paths = [f.attrs[attr] for f in files]
-    print(paths)
     if len(paths) == 0:
         return ''
     paths = [path for path in paths if path.find(excl_dir) != 0]
@@ -136,8 +137,6 @@ def gorillafy(target_directory: str,
     else:
         this_dir = os.path.dirname(os.path.realpath(__file__))
     template_dir = os.path.join(this_dir, 'resources')
-    print(template_dir)
-
 
     env = Environment(loader = FileSystemLoader(template_dir))
     metrics_template = env.get_template('add_metrics.js')
@@ -150,7 +149,11 @@ def gorillafy(target_directory: str,
     utils_js = read('js/utils.js', root_dir)
     main_js = read('js/main.js', root_dir)
     main_css = read('style/main.css', root_dir)
-    stim_files = os.listdir(os.path.join(root_dir, 'stimuli'))
+    stim_dir = os.path.join(root_dir, 'stimuli')
+    if os.path.exists(stim_dir):
+        stim_files = os.listdir(stim_dir)
+    else:
+        stim_files = []
 
     body_html = extract_gorilla_div(page)
 

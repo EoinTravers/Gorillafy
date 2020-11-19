@@ -1,1 +1,2 @@
 include gorillafy/resources/*
+include gorillafy/resources/libs/*
