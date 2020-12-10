@@ -6,6 +6,7 @@ import os
 import webbrowser
 from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
+import io
 
 __version__ = '0.1.1'
 
@@ -185,7 +186,7 @@ def gorillafy(target_directory: str,
     if output_file is None:
         output_file = os.path.join(root_dir, 'gorillafied.html')
     print('Writing to %s' % output_file)
-    with open(output_file, 'w') as f:
+    with io.open(output_file, 'w', encoding='utf8') as f:
         f.write(output)
     if view:
         webbrowser.open(output_file, new=2)

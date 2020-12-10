@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='gorillafy',
-      version='0.1.2',
+      version='0.1.3',
       description='Prepare JavaScript experiments for upload to Gorilla.sc',
       scripts=['bin/gorillafy'],
       url='http://github.com/eointravers/gorillafy',
